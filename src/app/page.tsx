@@ -20,7 +20,7 @@
 
 // const fetchTodos= async ()=>{
 //   try{
-// const response = await fetch('http://localhost:3000/api/Todo');
+// const response = await fetch('https://nextjs-full-stack-todo.vercel.app//api/Todo');
 // const data = await response.json();
 // console.log('fetch data',data)
 // setAllTodos(data.todos)
@@ -41,7 +41,7 @@
 //     return
 //   }
 //   try{
-//     const response = await fetch('http://localhost:3000/api/Todo',{
+//     const response = await fetch('https://nextjs-full-stack-todo.vercel.app//api/Todo',{
 //       method:"POST",
 //       headers:{
 //         "Content-Type":"application/json",
@@ -65,7 +65,7 @@
 
 // const deletedTodo = async (id: string)=>{
 //   try{
-//     await fetch(`http://localhost:3000/api/Todo/?id=${id}`,{
+//     await fetch(`https://nextjs-full-stack-todo.vercel.app//api/Todo/?id=${id}`,{
 //         method:"DELETE"
 //       })
 //     setAllTodos(allTodos.filter((todo: allTodosType)=>todo._id !== id));
@@ -149,7 +149,7 @@ export default function Page() {
 
   const fetchTodos = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/Todo');
+      const response = await fetch('https://nextjs-full-stack-todo.vercel.app/api/Todo');
       const data = await response.json();
       setAllTodos(data.todos || []);
     } catch (error) {
@@ -170,7 +170,7 @@ export default function Page() {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/Todo', {
+      const response = await fetch('https://nextjs-full-stack-todo.vercel.app/api/Todo', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -191,7 +191,7 @@ export default function Page() {
 
   const deletedTodo = async (id: string) => {
     try {
-      await fetch(`http://localhost:3000/api/Todo/?id=${id}`, {
+      await fetch(`https://nextjs-full-stack-todo.vercel.app/api/Todo/?id=${id}`, {
         method: "DELETE"
       });
       setAllTodos((prev) => prev.filter((todo) => todo._id !== id));
