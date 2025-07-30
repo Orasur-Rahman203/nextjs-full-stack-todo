@@ -149,7 +149,8 @@ export default function Page() {
 
   const fetchTodos = async () => {
     try {
-      const response = await fetch('https://nextjs-full-stack-todo.vercel.app/api/Todo');
+      const response = await fetch('http://localhost:3001/api/Todo');
+      // const response = await fetch('https://nextjs-full-stack-todo.vercel.app/api/Todo');
       const data = await response.json();
       setAllTodos(data.todos || []);
     } catch (error) {
@@ -168,9 +169,9 @@ export default function Page() {
       toast.error("Please fill out all fields");
       return;
     }
-
     try {
-      const response = await fetch('https://nextjs-full-stack-todo.vercel.app/api/Todo', {
+      const response = await fetch('http://localhost:3001/api/Todo', {
+      // const response = await fetch('https://nextjs-full-stack-todo.vercel.app/api/Todo', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -180,7 +181,7 @@ export default function Page() {
 
       const data = await response.json();
 
-      setAllTodos((prev) => [...prev, data.todo]); // Add the returned todo from API
+      setAllTodos((prev) => [...prev, data.todo]); 
       setNewTodo({ title: '', name: '', description: '' });
       toast.success("Todo added successfully");
     } catch (error) {
@@ -191,7 +192,8 @@ export default function Page() {
 
   const deletedTodo = async (id: string) => {
     try {
-      await fetch(`https://nextjs-full-stack-todo.vercel.app/api/Todo/?id=${id}`, {
+      await fetch(`http://localhost:3001/api/Todo/?id=${id}`, {
+      // await fetch(`https://nextjs-full-stack-todo.vercel.app/api/Todo/?id=${id}`, {
         method: "DELETE"
       });
       setAllTodos((prev) => prev.filter((todo) => todo._id !== id));
@@ -201,6 +203,39 @@ export default function Page() {
       toast.error("Failed to delete todo");
     }
   };
+
+const updateTodo = async (id: string ) => {
+  try {
+    const response = await fetch("http://localhost:3001/api/Todo", {
+    // const response = await fetch("https://nextjs-full-stack-todo.vercel.app/api/Todo", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id,
+        title:"update title",
+        name:"updated name",
+        description:"updated description "
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Failed to update todo");
+    }
+
+    toast.success("Todo updated successfully");
+
+    // Optionally refetch or update state here
+    fetchTodos(); // or manually update state with setAllTodos
+  } catch (error) {
+    toast.error("Error updating todo");
+    console.error("Update error:", error);
+  }
+};
+
 
   return (
     <div className="font-sans grid items-center justify-items-center gap-4 p-4">
@@ -243,7 +278,7 @@ export default function Page() {
                 <h1><strong>Description:</strong> {todo.description}</h1>
               </div>
               <div className="flex items-center gap-2">
-                <button><IconEdit /></button>
+                <button onClick={() => updateTodo(todo._id)}><IconEdit /></button>
                 <button onClick={() => deletedTodo(todo._id)}>
                   <IconTrash className="text-red-500" />
                 </button>
